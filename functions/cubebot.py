@@ -17,20 +17,19 @@ class Application(commands.Cog):
 		self.bot = bot
 
 	@commands.command(pass_context=True)
-	async def p1p1(self, ctx):
+	async def p1p1(self, ctx, cubeId=None):
 		"""Generate a P1P1 image given a cubetutor cube ID"""
-		command = ctx.message.content.split()
-		if len(command) > 1:
+		botmsg = await ctx.channel.send("Looking up pack...")
+		if cubeId:
 			try:
-				cubeId = int(command[1])
+				cubeId = int(cubeId)
 				logger.info(str(ctx.message.author) + " pulled a pack")
-				await ctx.channel.send("Looking up pack...")
-				cubeId = command[1]
-				packLoader = self.bot.loop.create_task(cubetutor.CubeTutorPackChrome(cubeId, ctx))
-			except:
-				await ctx.channel.send("Please give me a real ID at least. ")
-		if len(command) is 1:
-			await ctx.channel.send("I need an ID.")
+				packLoader = self.bot.loop.create_task(cubetutor.CubeTutorPackChrome(str(cubeId), ctx, botmsg, self.bot))
+			except Exception as e:
+				logger.info(e)
+				await botmsg.edit(content="Please give me a real ID at least. ")
+		if not cubeId:
+			await botmsg.edit(content="I need an ID.")
 
 def setup(bot):
 	bot.add_cog(Application(bot))

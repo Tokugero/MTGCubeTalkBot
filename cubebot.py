@@ -24,6 +24,6 @@ async def on_ready():
 
 
 bot.load_extension("functions.cubebot")
-bot.load_extension("functions.rotisserie")
+#bot.load_extension("functions.rotisserie")
 
 bot.run(botToken)
