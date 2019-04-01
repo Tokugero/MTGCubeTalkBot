@@ -29,7 +29,7 @@ async def saveCubes():
                 with open("./cubes/json-"+str(cube["name"]), "w+") as jsonFile:
                      json.dump(cube, jsonFile)
             logger.info("Saving cube")
-        await asyncio.sleep(10)
+        await asyncio.sleep(600)
 
 async def updateServer(bot):
     await bot.wait_until_ready()
