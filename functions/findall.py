@@ -4,6 +4,11 @@ import json
 from prettytable import PrettyTable
 import threading
 import isodate
+import logging
+
+logger = logging.getLogger('cubebot.findall')
+
+logger.info("Functionality called")
 
 #This does the major work and stitches together the results
 
@@ -94,7 +99,7 @@ def cliOutput():
     print(mt)
 
 def main():
-    print(cliOutput())
+    logger.info(cliOutput())
 
 if __name__ == "__main__":
     main()

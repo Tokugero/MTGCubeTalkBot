@@ -3,6 +3,10 @@ import json
 import os
 from prettytable import PrettyTable
 import isodate
+import logging
+
+logger = logging.getLogger('cubebot.ebay')
+logger.info("Functionality called")
 
 #Does the work of the query, returns a big gross beautiful json object from ebay, generally in format dict[0][key][0][key][0]etc
 def queryEbay(query, maxPrice):
@@ -27,7 +31,7 @@ def cliReturn(query, maxPrice):
 #{u'findItemsByKeywordsResponse': [{u'itemSearchURL': [u'http://www.ebay.com/sch/i.html?_nkw=Sol+Ring+Masterpiec&fscurrency=USD&_ddo=1&_ipg=100&_mPrRngCbx=1&_pgn=1&_sop=1&_udhi=5'], u'paginationOutput': [{u'totalPages': [u'0'], u'entriesPerPage': [u'100'], u'pageNumber': [u'0'], u'totalEntries': [u'0']}], u'ack': [u'Success'], u'timestamp': [u'2018-06-05T14:22:32.580Z'], u'searchResult': [{u'@count': u'0'}], u'version': [u'1.13.0']}]}
 def main():
     #Not actually being used right now, only a sample input
-    print(cliReturn("Wrath of God", 5))
+    logger.info(cliReturn("Wrath of God foil", 5))
 
 if __name__ == "__main__":
     main()
