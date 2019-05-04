@@ -1,1 +1,1 @@
-__all__ = ["cubebot", "cubetutor", "ebay", "findall", "mtgecho"]
+__all__ = ["cubebot", "cubetutor", "ebay", "findall", "mtgecho", "mongodb"]
