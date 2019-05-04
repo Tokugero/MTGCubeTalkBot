@@ -1,3 +1,4 @@
+import asyncio
 import ebay
 import mtgecho
 import json
@@ -16,6 +17,7 @@ logger.info("Functionality called")
 #    for i in results["findItemsByOKeywordsResponse"][0]["searchResult"][0]["item"]:
 #        listings.add_row([i["title"][0][:25], i["sellingStatus"][0]["currentPrice"][0]["__value__"], isodate.parse_duration(i["sellingStatus"][0]["timeLeft"][0]), i["viewItemURL"][0]])
 # {u'findItemsByKeywordsResponse': [{u'itemSearchURL': [u'http://www.ebay.com/sch/i.html?_nkw=Sol+Ring+Masterpiec&fscurrency=USD&_ddo=1&_ipg=100&_mPrRngCbx=1&_pgn=1&_sop=1&_udhi=5'], u'paginationOutput': [{u'totalPages': [u'0'], u'entriesPerPage': [u'100'], u'pageNumber': [u'0'], u'totalEntries': [u'0']}], u'ack': [u'Success'], u'timestamp': [u'2018-06-05T14:22:32.580Z'], u'searchResult': [{u'@count': u'0'}], u'version': [u'1.13.0']}]}
+#DONT MAKE THIS ASYNC, its being multithreaded later and they don't play nice together
 def searchEbay(card, cardList):
     #TODO: Build an actual class to define this, would probably be easier to read
     resultList = {}
@@ -61,9 +63,9 @@ def searchEbay(card, cardList):
     cardList.append(resultList)
 
 #Thread these calls or it'll take forever
-def findEbayWatchlist():
+async def findEbayWatchlist():
     #Single call, get watchlist
-    watchList = mtgecho.callWatchlist()
+    watchList = await mtgecho.callWatchlist()
     threads = []
     cardList = []
     #For each card, define a thread to call
@@ -77,8 +79,8 @@ def findEbayWatchlist():
     return cardList 
 
 #This is just to pretty output this to CLI, it could just as easily be made to define the objects and pass them around somewhere else.. dirty dirty data.
-def cliOutput():
-    result = findEbayWatchlist()
+async def cliOutput():
+    result = await findEbayWatchlist()
     mt = PrettyTable()
     mt.field_names = ["Card Name", "TCG Low", "Foil Mid", "eBay Listings"]
     for row in result:
@@ -98,8 +100,7 @@ def cliOutput():
     mt.align["Foil Mid"] = "r"
     print(mt)
 
-def main():
-    logger.info(cliOutput())
 
 if __name__ == "__main__":
-    main()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(cliOutput())
