@@ -4,6 +4,7 @@ import os
 import logging
 import sys
 from functions import cubebot
+from functions import mtgbuy
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 logger = logging.getLogger('cubebot.main')
@@ -24,5 +25,6 @@ async def on_ready():
 
 
 bot.load_extension("functions.cubebot")
+bot.load_extension("functions.mtgbuy")
 
 bot.run(botToken)

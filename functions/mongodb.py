@@ -56,7 +56,7 @@ async def querySourceOfTruth(query):
     logger.info("Querying Source of Truth")
     allCards = 50000
 
-    results = sotdata.find({"name": {"$regex": query}})
+    results = sotdata.find({"name": {"$regex": query, "$options": "-i"}})
     finale = []
     for result in await results.to_list(length=allCards):
         finale.append(result)
