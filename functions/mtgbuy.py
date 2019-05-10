@@ -43,16 +43,17 @@ class Application(commands.Cog):
         """Buy some cards for Toku!"""
         watchList = await findall.findEbayWatchlist()
         for card in watchList:
-            embed = discord.Embed(title=card["card"]["name"], description=card["card"]["set_code"] + " | tcgplayer low: " + str(card["card"]["tcg_low"]) + " | tcgplayer foil: " + str(card["card"]["foil_price"]))
-            embed.set_thumbnail(url=card["card"]["image"])
             if not card["ebay"]:
                 embed.add_field(name="Sorry, no cards found", value="...")
                 await ctx.send(embed=embed)
             if card["ebay"]["results"]:
                 for result in card["ebay"]["results"]:
+                    result = sorted(result, key=lambda k: k['price'])
                     for listing in result:
-                        embed.add_field(name=listing["price"], value="["+listing["name"]+"]("+listing["url"]+")")
-            await ctx.send(embed=embed)
+                        embed = discord.Embed(title=card["card"]["name"], description=card["card"]["set_code"] + " | tcgplayer low: " + str(card["card"]["tcg_low"]) + " | tcgplayer foil: " + str(card["card"]["foil_price"]))
+                        embed.set_thumbnail(url=listing["galleryUrl"])
+                        embed.add_field(name=listing["currency"] + " " + listing["price"], value="["+listing["name"]+"]("+listing["url"]+")")
+                        await ctx.send(embed=embed)
         return
 
     @buy.command()

@@ -41,7 +41,9 @@ def searchEbay(card, cardList):
                 ebayObject["name"] = listing["title"][0]
                 ebayObject["tte"] = isodate.parse_duration(listing["sellingStatus"][0]["timeLeft"][0])
                 ebayObject["url"] = listing["viewItemURL"][0]
+                ebayObject["currency"] = listing["sellingStatus"][0]["currentPrice"][0]["@currencyId"]
                 ebayObject["price"] = listing["sellingStatus"][0]["currentPrice"][0]["__value__"]
+                ebayObject["galleryUrl"] = listing["galleryURL"][0]
                 allListings.append(ebayObject)
             #Add result to a list for future returns (this is going to be an async call after all)
             resultList["ebay"]["results"].append(allListings)
@@ -54,7 +56,9 @@ def searchEbay(card, cardList):
                 ebayObject["name"] = listing["title"][0]
                 ebayObject["tte"] = isodate.parse_duration(listing["sellingStatus"][0]["timeLeft"][0])
                 ebayObject["url"] = listing["viewItemURL"][0]
+                ebayObject["currency"] = listing["sellingStatus"][0]["currentPrice"][0]["@currencyId"]
                 ebayObject["price"] = listing["sellingStatus"][0]["currentPrice"][0]["__value__"]
+                ebayObject["galleryUrl"] = listing["galleryURL"][0]
                 allListings.append(ebayObject)
             resultList["ebay"]["results"].append(allListings)
     #Add result list dict to a global array so this can be made asynchroonously
