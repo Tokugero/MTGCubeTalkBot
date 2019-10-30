@@ -32,7 +32,7 @@ async def CubeTutorPackChrome(cubeId, ctx, botmsg, bot):
         
     try:
         gtfo = webdriver.common.action_chains.ActionChains(driver)
-        gtfo.move_by_offset(1000,1000).perform()
+        gtfo.move_by_offset(100,100).perform()
         element = driver.find_element_by_id('main')
         elementPng = BytesIO(element.screenshot_as_png)
         await tearDownClass(driver, png=elementPng, ctx=ctx, botmsg=botmsg, bot=bot, cubeId=cubeId)
